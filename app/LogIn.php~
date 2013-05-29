@@ -28,33 +28,37 @@ session_start();
 <script src="js/jquery-1.8.2.min.js"></script>
 <link rel="stylesheet" href="css/myCSS.css">
 <script src="js/mySystemJScript.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
+
+<link rel="stylesheet" href="bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="bootstrap/css/bootstrap.responsive.css" />
+<link rel="stylesheet" href="bootstrap/css/bootstrap.responsive.min.css" />
+
 </head>
 <body>
-<fieldset id="logIn_fldst_top">
-<legend><h1 id="logIn_h1">LOGiN TO ADMITTING AREA</h1></legend>
-
+<div id="Login_div">
+<legend><a href="home.php" id="back_home"><i class="icon-home icon-black"></i></a><h2 id="logIn_h1">Login to Admin</h2></legend>
 <form method="POST" >
 	<div id="user">
-	USERNAME:
-	<input type="text" name="username" id="username"/>
+	<input type="text" name="username" id="username" placeholder="Username"/>
 	
-	<br /><br />
+	<br />
+	<input type="password" name="password" id="password" placeholder="Password"/>
 	
-	PASSWORD:
-	<input type="password" name="password" id="password"/>
-	
-	<br /><br /><br />
-	
-	<input type="submit" value="LOGIN" id="login_button"/>
+	<br />
+	<button class="btn btn-primary" id="login_button">LOGIN</button>
 	<br /><br />
 	
 	<div id="forErrMsg">
 	<?php
-		if(isset($errMsg)) echo $errMsg;
+		if(isset($errMsg)) echo "<h5>".$errMsg."</h5>";
 	?>
 	<div>
 	</div>
 </form>
-</fieldset>
+<div>
 </body>
 </html>

@@ -8,7 +8,6 @@ $(document).ready(function(){
 	$("#div_o1").show();
 	$("#div_o2").hide();
 	$("#div_o3").hide();
-	$("#forErrMsg").hide(3000);
 	
 	$("#home").click(function(){
 		$("#div_o1").show();
@@ -28,7 +27,7 @@ $(document).ready(function(){
 		$("#div_o3").show();
 	});
 	
-//xxxxx for the monitoring page xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxx for the monitoring page xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	var dateOpt = { dateFormat: 'MM-dd-yy'};
 	
 	
@@ -39,8 +38,11 @@ $(document).ready(function(){
 	$("#forSuccessAddDialog").hide();
 	$("#forSuccessEditDialog").hide();
 	$("#forDeleteDialog").hide();
+	$("#alertSuccess").hide();
+	$("#logOut").tooltip();
+	$("#checkAlert2").hide();
 	
-//xxxxx for viewing the content xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx	
+//xxxxx for viewing the content xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx	
 	$.ajax({
 		type: "POST",
 		url: "patients_view.php",
@@ -50,18 +52,16 @@ $(document).ready(function(){
 		error: function(data){}
 	});
 	
-	//-------------------------------------------------------------
-	
 	$.ajax({
 		type: "POST",
-		url: "viewDoc.php",
+		url: "department_view.php",
 		success: function(data){
-			$("#doctors_table").append(data);
+			$("#department_table").append(data);
 		},
 		error: function(data){}
 	});
 	
-//xxxxx for search xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxx for search xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	$("#search").keyup(function(){
 		var sname = $("input[name='search']").val();
 		var obj = {"lastname":sname};
@@ -78,7 +78,7 @@ $(document).ready(function(){
 		});
 	});
 	
-//xxxxx for adding xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+//xxxxx for adding xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	
 	$("#add_button").click(function(){
 	
@@ -99,21 +99,34 @@ $(document).ready(function(){
 						"date":$("input[name='date']").val()
 					};
 					
-					var a = $("input[name='firstname']").val();
-					var b = $("input[name='lastname']").val();
-					var c = $("input[name='middle_initial']").val();
-					var d = $("input[name='age']").val();
+					var firstname= $("input[name='firstname']").val();
+					var lastname= $("input[name='lastname']").val();
+					var middle_initial= $("input[name='middle_initial']").val();
+					var age= $("input[name='age']").val();
 					//var e = $("input:radio[name='gender']:checked").val();
-					var f = $("input[name='address']").val();
-					var g = $("input[name='date']").val();
+					var address= $("input[name='address']").val();
+					var date= $("input[name='date']").val();
+					var department= $("select[name='department']").val();
 					
-					if(a=="" && b=="" && c=="" && d=="" && f=="" && g==""){
-						$("#alert").fadeIn();
+					
+					var check = /^[0-9]+/;
+					
+					
+					if(firstname=="" || lastname=="" || middle_initial=="" || age=="" || address=="" || date=="" || department=="----Select----"){
+						$("#alert").show();
+						$("#checkAlert2").hide();
+						return false;
 					}	
-					 else if(($("input:radio[name='gender']:checked").val() == null || false) || ($("select[name='department']").val() == "----Select----")){
-						$("#alert").fadeIn();
+					 else if(($("input:radio[name='gender']:checked").val() == null || false)){
+						$("#alert").show();
+						$("#checkAlert2").hide();
+						return false;
 					}
-					
+					 else if(!check.test(age)){
+					 	$("#checkAlert2").show();
+					 	$("#alert").hide();
+					 	return false;
+					 }
 					 else {
 					 
 						$.ajax({
@@ -122,10 +135,14 @@ $(document).ready(function(){
 						data: objects,
 						success: function(data){
 							$("#record_table").append(data);
-							$("#forSuccess").fadeIn();
+							$("#forSuccess").show();
+							$("#forSuccess").fadeOut(5000);
+							$("#alert").hide();
+							$("#checkAlert2").hide();
 						},
 						error: function(data){}
 						});
+						return true;
 						
 					}
 		});				
@@ -134,6 +151,65 @@ $(document).ready(function(){
 	
 	$("#btn_Login").click(function(){
 		$("#user").modal();
+	});
+	
+//xxxxxxx add department xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	
+	$("#addAlert").hide();
+	$("#checkAlert").hide();
+	$("#add_dep").click(function(){
+	
+		
+		
+		var room_number = $("input[name='room_number']").val();
+		var doctors_in_charge = $("input[name='doctors_in_charge']").val();
+		var service_fee = $("input[name='service_fee']").val();
+		var department = $("select[name='department2']").val();
+		
+		var check = /^[0-9]+/;
+		
+		if(room_number=="" || doctors_in_charge=="" || service_fee=="" || department=="Select"){
+			$("#addAlert").show();
+			$("#checkAlert").hide();
+			return false;
+		}
+		else if(!check.test(room_number) || !check.test(service_fee)){
+			$("#checkAlert").show();
+			$("#addAlert").hide();
+			return false;
+		}
+		
+		 else{
+			var obj = {
+				"room_number":$("input[name='room_number']").val(),
+				"department2":$("select[name='department2']").val(),
+				"doctors_in_charge":$("input[name='doctors_in_charge']").val(),
+				"service_fee":$("input[name='service_fee']").val()
+			};
+		
+				$.ajax({
+					type: "POST",
+					url: "department_add.php",
+					data: obj,
+					success:function(data){
+						$("#checkAlert").hide();
+						$("#addAlert").hide();
+						$("#alertSuccess").show();
+						$("#alertSuccess").fadeOut(5000);
+						$("#department_table").append(data);
+					},
+					error: function(data){}
+				});
+				
+		return true;
+		}
+	});
+	
+	$("#clear").click(function(){
+		$("select").val('1');
+		$("#room_number").val('');
+		$("#doctors_in_charge").val('');
+		$("#service_fee").val('');
 	});
 	
 //--------------------------------------------------------------------------------------------------------------//

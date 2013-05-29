@@ -180,21 +180,55 @@
 
 		}
 		
-		function viewDoc(){
-			$this->openConn();
-			
-			$stmt = $this->dbh->prepare("SELECT * FROM doctors_in_charge");	
-			$stmt->execute();
-			$this->closeConn();
-			
-			while ($row = $stmt->fetch()){
-				echo "<tr>";
-				echo "<td class='forTheDoc'>".$row[1]."</td>";
-				echo "<td class='forTheDoc'>".$row[2]."</td>";
-				echo "</tr>";
-			}
-				
+/*---------------------------------------------------------------------------------------*/
+	
+	
+	function viewDep(){
+		$this->openConn();
+		
+		$sql = "SELECT * FROM hospital_department";
+		$stmt = $this->dbh->prepare($sql);
+		$stmt->execute();
+		
+		while($row = $stmt->fetch()){
+			echo "<tr ".$row[0].">";
+			echo "<td>".$row[1]."</td>";
+			echo "<td>".$row[2]."</td>";
+			echo "<td>".$row[3]."</td>";
+			echo "<td>".$row[4]."</td>";
+			echo "</tr>";
 		}
+		$this->closeConn();
+		
+		
+	}
+
+	
+	function addDep($room_number, $department2, $doctors_in_charge, $service_fee){
+		$this->openConn();
+		
+		$sql = "INSERT INTO hospital_department 
+			(room_number, department2, doctors_in_charge, service_fee)
+			VALUES
+			(?,?,?,?)";
+		
+		$stmt = $this->dbh->prepare($sql);
+		$stmt->bindParam (1, $room_number);
+		$stmt->bindParam (2, $department2);
+		$stmt->bindParam (3, $doctors_in_charge);
+		$stmt->bindParam (4, $service_fee);
+		$stmt->execute();
+		$id = $this->dbh->lastInsertId();
+		
+			echo "<tr id=".$id.">";
+			echo "<td>".$room_number."</td>";
+			echo "<td>".$department2."</td>";
+			echo "<td>".$doctors_in_charge."</td>";
+			echo "<td>".$service_fee."</td>";
+			echo "</tr>";
+		
+		$this->closeConn();
+	}
 	}
 	
 	

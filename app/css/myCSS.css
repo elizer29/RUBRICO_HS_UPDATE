@@ -6,6 +6,9 @@ body{
 /*-------------------login page--------------------*/
 #forErrMsg{
 	color: maroon;
+	font-family: Verdana;
+	text-align: center;
+	
 }
 label{
 	text-align: left;
@@ -13,12 +16,42 @@ label{
 	float: left;
 	width: 150px;
 }
+
+#username, #password{
+	height: 30px;
+	width: 300px;
+	font-family: sawasdee;
+	font-size: 20px;
+	margin-left: 140px;
+}
+#Login_div{
+	width: 600px;
+	position: fixed;
+	margin-left: 430px;
+	margin-top: 80px;
+}
+#login_button{
+	width: 150px;
+	margin-left: 225px;
+}
+.indent{
+	margin-left: 40px;
+	margin-right: 30px;
+}
+#back_home{
+	float: right;
+	margin-top: 10px;
+	margin-right: 10px;
+}
 /*-----------------admin page--------------------*/
+#clear{
+	margin-left: 239px;
+}
 #logOut{
 	float: right;
-	text-decoration: none;
-	margin-right: 25px;
+	margin-right: 50px;
 	margin-top: 20px;
+	height: 40px;
 }
 #main_fldst{
 	background-color: green;
@@ -30,6 +63,7 @@ label{
 	margin-right: 20px;
 }
 #record_table{
+	text-transform: capitalize;
 	margin-left: 15px;
 	border-collapse: collapse;
 	font-family: arial , sans-serif;
@@ -39,6 +73,11 @@ label{
 .ui-dialog-titlebar{
 	background: #5C5C33;
 	color: white;
+}
+th{
+	height: 10px;
+	border: thin solid gray;
+	text-align: center;
 }
 td{
 	height: 10px;
@@ -72,7 +111,7 @@ td{
 	/*background: orange;*/
 }
 #search{
-	margin-right: 50px;
+	margin-right: 160px;
 	margin-top: 18px;
 }
 #error_symbol{
@@ -102,23 +141,18 @@ td{
 	color: yellow;
 }*/
 th.forTheList{
+	padding: 10px;
 	border: thin solid gray;
 	background: -moz-linear-gradient(top, white, #B7B6BA);
 	background: -webkit-linear-gradient(top, white, #B7B6BA);
 }
-th.forTheDoc{
-	border: thin solid gray;
-	background: -moz-linear-gradient(top, orange, yellow);
-	background: -webkit-linear-gradient(top, orange, yellow);
-}
-td.forTheDoc{
-	padding: 7px;
-}
-#doctors_table{
+#department_table{
+	text-transform: capitalize;
+	margin-right: 50px;
 	border-collapse: collapse;
-	margin-top: 90px;
-	margin-left: 380px;
-	margin-bottom: 100px;
+	font-family: arial , sans-serif;
+	width: 700px;
+	float: right;
 }
 #logo_img{
 	margin-left: 90px;
@@ -164,4 +198,8 @@ td.forTheDoc{
 	float: left;
 	padding-right: 10px;
 	padding-bottom: 10px;
+}
+#addAlert, #checkAlert, #alertSuccess{
+	margin-top: 20px;
+	width: 320px;
 }
